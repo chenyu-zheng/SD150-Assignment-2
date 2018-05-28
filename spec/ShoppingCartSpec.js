@@ -23,7 +23,6 @@ describe('ShoppingCart', () => {
             cart.scan(americano);
             expect(cart.items()).toEqual([americano]);
             cart.scan(macchiato);
-            expect(cart.items()).toEqual([americano, macchiato]);
             cart.scan(macchiato);
             cart.scan(macchiato);
             cart.scan(frappuccino);
@@ -36,8 +35,6 @@ describe('ShoppingCart', () => {
             }
             expect(cart.scan(americano)).toBe('Your cart is full.');
             expect(cart.items()).toEqual([americano, americano, americano, americano, americano]);
-            expect(cart.scan(macchiato)).toBe('Your cart is full.');
-            expect(cart.items()).toEqual([americano, americano, americano, americano, americano]);
         });
 
     });
@@ -46,10 +43,7 @@ describe('ShoppingCart', () => {
         it('should remove an item from the cart', () => {
             cart.scan(macchiato);
             cart.scan(americano);
-            cart.scan(macchiato);
             cart.remove(americano);
-            expect(cart.items()).toEqual([macchiato, macchiato]);
-            cart.remove(macchiato);
             expect(cart.items()).toEqual([macchiato]);
             cart.remove(macchiato);
             expect(cart.items()).toEqual([]);
@@ -70,17 +64,14 @@ describe('ShoppingCart', () => {
             expect(cart.total()).toBe(4);
             cart.scan(macchiato);
             expect(cart.total()).toBe(9.99);
-            cart.scan(americano);
-            expect(cart.total()).toBe(13.99);
-            cart.remove(macchiato);
-            expect(cart.total()).toBe(8);
+            cart.remove(americano);
+            expect(cart.total()).toBe(5.99);
         });
     });
 
     describe('discount', () => {
         it('should discount all items in the cart according to the given percentage', () => {
             cart.discount(20);
-            expect(cart.total()).toBe(0);
             cart.scan(americano);
             expect(cart.total()).toBe(3.2);
             cart.scan(frappuccino);
